@@ -1,0 +1,33 @@
+class Solution:
+    """
+    @param: A: An array of non-negative integers
+    @return: The maximum amount of money you can rob tonight
+    """
+    def houseRobber(self, A):
+        # write your code here
+        # Dynamic Programming?
+        
+        h0 = 0;#history 1~n-2
+        h1 = 0;
+        
+        for x in A:
+            buf = h1;
+            h1 = max(h0 + x, h1);
+            h0 = buf;
+        
+        return max(h0, h1);    
+        
+        
+        #The rolling set could be further optimized
+        
+        if len(A) == 0:
+            return 0;
+        
+        h = [0] * 2;
+        h[0] = 0; # Thus i should be from 0 to N, i == the state when reaching house i
+        h[1] = A[0];
+        
+        for i in range(2, len(A) + 1):
+            h[i%2] = max(h[(i - 2) % 2] + A[i - 1], h[(i - 1) % 2]);
+            
+        return max(h[0], h[1]);
