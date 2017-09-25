@@ -1,0 +1,30 @@
+class Solution:
+    """
+    @param: A: An array of Integer
+    @return: an integer
+    """
+    def longestIncreasingContinuousSubsequence(self, A):
+        # write your code here
+        count = len(A);
+        if count < 2:
+            return count;
+        dp = [0] * (count);
+        
+        # 1st loop: left-right increase
+        for i in range(count):
+            if i == 0 or A[i] < A[i - 1]:
+                dp[i] = 1;
+            else:
+                dp[i] = dp[i - 1] + 1;
+        first = max(dp);
+        print(first);
+        
+        dp = [0] * (count);
+        # 2nd loop: right-left increase
+        for i in range(count - 1, -1, -1):
+            if i == count - 1 or A[i] < A[i + 1]:
+                dp[i] = 1;
+            else:
+                dp[i] = dp[i + 1] + 1;
+        print(max(dp));        
+        return max(max(dp), first);        
