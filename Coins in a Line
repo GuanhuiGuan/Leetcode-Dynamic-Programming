@@ -1,0 +1,24 @@
+class Solution:
+    """
+    @param: n: An integer
+    @return: A boolean which equals to true if the first player will win
+    """
+    def firstWillWin(self, n):
+        # write your code here
+        # dp[i] means i coins are left in the array every time regardless of the player
+        # If last could lost in either i - 1 or i - 2, first could win, because the first get to choose pick 1 or 2 this round, and first will pick whatever that makes him win. 
+        if n == 0:
+            return False;
+        elif n < 3:
+            return True;
+            
+        dp = [None] * (n + 1);
+        dp[0] = False;
+        dp[1] = True;
+        dp[2] = True;
+
+        
+        for i in range(3, n + 1): #
+            dp[i] = not dp[i - 2] or not dp[i - 1];
+            
+        return dp[n];
