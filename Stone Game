@@ -7,6 +7,8 @@ class Solution:
         import sys
         # write your code here
         n = len(A);
+        if n < 2:
+            return 0;
         # dp[i][j] means how much cost for merging interval i to j
         dp = [[0 for i in range(n)] for j in range(n)];
         sum = [[0 for i in range(n)] for j in range(n)]; # sum stores the sum of interval i to j
@@ -19,7 +21,7 @@ class Solution:
         for i in range(n - 1):
             dp[i][i + 1] = A[i] + A[i + 1]; # initialize what it costs to add i and i+1
             
-        for x in range(2, n):
+        for x in range(2, n): # Outermost loop alter the size of interval
             i = 0;
             while i + x < n:
                 j = i + x;
