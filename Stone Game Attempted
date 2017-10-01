@@ -1,0 +1,38 @@
+class Solution:
+    """
+    @param: A: An integer array
+    @return: An integer
+    """
+    def stoneGame(self, A):
+        import sys
+        # write your code here
+        n = len(A);
+        # dp[i][j] means how much cost for merging interval i to j
+        dp = [[0 for i in range(n)] for j in range(n)];
+        sum = [[0 for i in range(n)] for j in range(n)]; # sum stores the sum of interval i to j
+        
+        for i in range(n):
+            dp[i][i] = 0; # could be removed, which means interval of 1 element don't cost
+            sum[i][i] = A[i]; # initialize sum
+            for j in range(i + 1, n): # calculate the sum of the element we choose and the one directly behind it
+                sum[i][j] = sum[i][j - 1] + A[j];
+        for i in range(n - 1):
+            dp[i][i + 1] = A[i] + A[i + 1]; # initialize what it costs to add i and i+1
+            
+        for x in range(2, n):
+            i = 0;
+            while i + x < n:
+                j = i + x;
+                dp[i][j] = sys.maxsize;
+                for k in range(i, j): # ! The core of the algorithm: search thru i to j to find the min of what lies below
+                    dp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j] + sum[i][j]);
+                i += 1;
+            
+        print(dp, sum);        
+        return dp[0][n - 1];
+
+
+
+
+x = Solution();
+print(x.stoneGame([6, 4, 4, 6]));
