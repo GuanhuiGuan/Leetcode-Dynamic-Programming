@@ -1,0 +1,22 @@
+class Solution {
+    public int maxProduct(int[] nums) {
+        int n = nums.length;
+        int dpmin = nums[0]; //dpmax and min of subarray product of nums[0-i]
+        int dpmax = nums[0]; //keep min since multi a negative could make it the max
+        int amax = nums[0];
+        
+        for(int i = 1; i < n; i++)
+        {
+            if(nums[i] < 0)
+            {
+                int temp = dpmin;
+                dpmin = dpmax;
+                dpmax = temp;
+            }
+            dpmax = Math.max(dpmax * nums[i], nums[i]); //num[i] could be the new start of a subarray
+            dpmin = Math.min(dpmin * nums[i], nums[i]);
+            amax = Math.max(amax, dpmax);//in total, for each step, max(no multi, multi, new element)
+        }
+        return amax;
+    }
+}
