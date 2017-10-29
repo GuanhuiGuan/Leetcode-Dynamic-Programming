@@ -1,0 +1,22 @@
+public class Solution {
+    /*
+     * @param values: a vector of integers
+     * @return: a boolean which equals to true if the first player will win
+     */
+    public boolean firstWillWin(int[] values) {
+        // write your code here
+        // find out if the sum of First is greater than the half 
+        int n = values.length;
+        int[] sum = new int[n + 1];
+        int[] dp = new int[n + 1];
+        for(int i = 1; i <= n; i++){
+            sum[i] = sum[i - 1] + values[n - i];//sum[i] total value of i coins
+        }
+        
+        dp[1] = values[n - 1];//dp[i] max value sum of each player to get with i coins
+        for(int i = 2; i <= n; i++){
+            dp[i] = Math.max(sum[i] - dp[i - 1], sum[i] - dp[i - 2]);//those dp on RHS are possible decisions made by the opponent
+        }
+        return dp[n] > sum[n] / 2;
+    }
+}
